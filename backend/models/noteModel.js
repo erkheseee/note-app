@@ -5,6 +5,9 @@ const noteSchema = new Schema({
     text: {
         type: String,
         required: true
+    },
+    folder: {
+        type: String
     }
 }, { timestamps: true});
 

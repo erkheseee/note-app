@@ -1,0 +1,81 @@
+ /* google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
+/* layout */
+body {
+  margin: 0;
+  font-family: "Poppins";
+  overflow-y: hidden;
+}
+:root {
+  --primary: #1aac83;
+  --error: #e7195a;
+}
+.header {
+  background: #f1f1f1;
+  height: 5vh;
+  margin: 0 auto;
+  padding: 0px 20px;
+  border: solid lightgray;
+  border-width: 0 0 .1px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home {
+  display: flex;
+}
+.pages{
+  /* max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto; */
+}
+.folder-bar{
+  background-color: #fbfbfd;
+  flex: 18;
+  border: solid lightgray;
+  border-width: 0 .1px 0 0;
+  height: 95vh;
+  padding: 10px;
+}
+.folder{
+  background-color: lightgray;
+  border-radius: 10px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.notes-bar{
+  flex: 22;
+  background-color: #fff;
+  border: solid lightgray;
+  border-width: 0 .1px 0 0;
+  padding: 10px;
+}
+.note-button{
+  background-color: lightgray;
+  border-radius: 10px;
+  /* height: 60px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin: 1px;
+}
+
+.note{
+  flex: 60;
+}
+
+input{
+  all: unset;
+}
+.notepad{
+
+  height: 100vh;
+  width: 100%;
+}
