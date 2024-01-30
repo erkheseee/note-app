@@ -39,13 +39,57 @@ body {
   padding: 10px;
 }
 .folder{
+  background-color: #fbfbfd;
+  border-radius: 10px;
+  border-width: 0;
+  height: 30px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 1px;
+}
+.folder:hover{
   background-color: lightgray;
+  transition: 0.3s;
+}
+.text{
+  flex-grow: 1;
+}
+.delete{
+  flex-shrink: 0;
+}
+.current-folder{
+  background-color: lightgray;
+  border-radius: 10px;
+  border-width: 0;
+  height: 30px;
+  display: flex;
+  
+  width: 100%;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 1px;
+}
+.current-folder:hover{
+  opacity: 0.5;
+  transition: 0.3s;
+}
+.new-folder-button{
+  position: fixed;
+  bottom: 0;
+}
+.folder-rename{
+  background-color: #1aac83;
   border-radius: 10px;
   height: 30px;
   display: flex;
   align-items: center;
   padding-left: 15px;
   padding-right: 15px;
+  margin: 1px;
 }
 
 .notes-bar{

@@ -1,9 +1,10 @@
 const Folder = require('../models/folderModel');
+const Note = require('../models/noteModel');
 const mongoose = require('mongoose');
 
 //get all folder
 const getFolders = async (req, res) => {
-    const folder = await Folder.find({}).sort({updatedAt: -1});
+    const folder = await Folder.find({}).sort({createdAt: 1});
     res.status(200).json(folder);
 }
 
@@ -21,7 +22,9 @@ const getFolder = async (req, res) => {
         return res.status(404).json({error: "No such folder!"});
     }
 
-    res.status(200).json(folder);
+    const notes = await Note.find({}).where({folder: id});
+
+    res.status(200).json(notes);
 }
 
 //create new folder

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 
-function Note({note, changeParentState}) {
+function Note({note, refresh}) {
   const [noteObject, setNoteObject] = useState(null);
   const [error, setError] = useState(null);
 
@@ -30,14 +30,11 @@ function Note({note, changeParentState}) {
     }
     if(response.ok) {
       setError(null);
-      changeParentState(noteObject.text);
+      refresh(noteObject.text);
       console.log('Note has been updated');
     }
   }
 
-  if(!noteObject){
-    return (<></>)
-  } else {
   return (
     <div className="note">
       {note ? (
@@ -45,12 +42,11 @@ function Note({note, changeParentState}) {
       ):(<div>No notes selected</div>)}
     </div>
   )
-  }
 }
 
 Note.propTypes = {
   note: PropTypes.object,
-  changeParentState: PropTypes.func,
+  refresh: PropTypes.func,
 }
 
 export default Note

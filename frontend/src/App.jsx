@@ -18,7 +18,7 @@ function App() {
                   element={<Home />}
                 />
                 <Route 
-                  path='/notes/folders'
+                  path='/notes/folder'
                   element={<Home />}
                 />
                 <Route 

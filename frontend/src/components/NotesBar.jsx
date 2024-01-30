@@ -1,7 +1,16 @@
-import SearchBar from "./SearchBar"
+import SearchBar from "./SearchBar";
+import PropTypes from 'prop-types';
 
-function NotesBar({notes}) {
-  return (
+function NotesBar({notes, refresh}) {
+  if(!notes){
+    return (
+        <div className="notes-bar">
+            <SearchBar />
+            There are no notes in this folder.
+        </div>
+  )
+  } else {
+    return (
         <div className="notes-bar">
             <SearchBar />
             {notes && notes.map((note) => (
@@ -13,6 +22,12 @@ function NotesBar({notes}) {
             ))}
         </div>
   )
+  }
+}
+
+NotesBar.propTypes = {
+  notes: PropTypes.array,
+  refresh: PropTypes.func,
 }
 
 export default NotesBar
