@@ -96,15 +96,17 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
           <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div>
         </button>)
     }
-    
-
     );
+    if(newFolderParent) {
+      jsx.push(<button className="new-folder-button" onClick={() => createFolder()} disabled>+ New Folder</button>)
+    } else {
+      jsx.push(<button className="new-folder-button" onClick={() => createFolder()}>+ New Folder</button>);
+    }
   }
 
   return (
       <div className="folder-bar">
         {jsx}
-        <button className="new-folder-button" onClick={() => createFolder()}>+ New Folder</button>
       </div>
   )
 }
