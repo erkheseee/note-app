@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 //get all folder
 const getFolders = async (req, res) => {
-    const folder = await Folder.find({}).sort({createdAt: 1});
+    const folder = await Folder.find({}).sort({createdAt: -1});
     res.status(200).json(folder);
 }
 

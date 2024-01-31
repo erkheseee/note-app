@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types';
 
 import FolderBar from '../components/FolderBar'
 import NotesBar from '../components/NotesBar'
 import Note from '../components/Note'
 
-const Home = () => {
-    console.log("MOUNTING HOME")
-
+const Home = ({initial}) => {
+    const ALLNOTES = "65b8b73e684f38e3adbe2675";
     const [refresh, setRefresh] = useState(null);
     const [note, setNote] = useState(null);
     const [notes, setNotes] = useState(null);
@@ -24,38 +24,43 @@ const Home = () => {
 
             if(response.ok) {
                 setFolders(json);
-                currentFolder ? setFolderSwitch(!folderSwitch): setCurrentFolder(json[0]);
+                if(currentFolder == null || refresh == "DELETE folder") {
+                    json.map((folder) => {
+                        folder._id == ALLNOTES ? setCurrentFolder(folder) : console.log("Error, All Notes folder has been removed");
+                    })
+                } else {
+                    currentFolder ? setFolderSwitch(!folderSwitch): setCurrentFolder(json[0]);
+                }
             }
         };
 
         fetchFolders();
-        loadJsx();
-    }, [refresh])
+    }, [refresh, initial])
 
     //fetching notes
     useEffect(() => {
         const fetchNotes = async () => {
-            if(currentFolder) {
-                if(currentFolder.text == "All Notes") {
-                    const response = await fetch('http://localhost:4000/notes/note');
-                    const json = await response.json();
-    
-                    if(response.ok) {
-                        setNotes(json);
-                        setNote(json[0]);
-                    }
-                } else {
-                    const response = await fetch(`http://localhost:4000/notes/folder/${currentFolder._id}`);
-                    const json = await response.json();
-    
-                    if(response.ok) {
-                        setNotes(json);
-                        json.length == 0 ? setNote(null) : setNote(json[0]);
-                    }       
+            if(currentFolder._id == ALLNOTES) {
+                const response = await fetch('http://localhost:4000/notes/note');
+                const json = await response.json();
+
+                if(response.ok) {
+                    setNotes(json);
+                    setNote(json[0]);
                 }
+            } else {
+                const response = await fetch(`http://localhost:4000/notes/folder/${currentFolder._id}`);
+                const json = await response.json();
+
+                if(response.ok) {
+                    setNotes(json);
+                    json.length == 0 ? setNote(null) : setNote(json[0]);
+                }       
             }
-            }
-        fetchNotes();
+        } 
+        console.log("HEEEEEEEEEERRRRREEEEEEEEE", currentFolder);
+        if(currentFolder) fetchNotes();
+
         loadJsx();
     }, [currentFolder, folderSwitch])
 
@@ -69,9 +74,9 @@ const Home = () => {
     function loadJsx() {
         if(folders) {
             refresh == "POST folder" ?
-                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolder={true}/>)
+                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={true}/>)
                 :
-                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolder={false}/>)
+                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>)
         }
         if(notes) {
             if(notes.length == 0 ){
@@ -92,6 +97,10 @@ const Home = () => {
             {jsx}
         </div>
     )
+}
+
+FolderBar.propTypes = {
+  initial: PropTypes.bool,
 }
 
 export default Home
