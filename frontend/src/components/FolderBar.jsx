@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function FolderBar({folders, currentFolder, refresh, newFolder, handleFolderChange}) {
 
   const [error, setError] = useState(null);
-  const [newFolderName, setNewFolderName] = useState(currentFolder.text);
+  const [newFolderName, setNewFolderName] = useState('New Folder');
   let jsx = [];
 
   const handleFocusOut = async () => {
@@ -63,8 +63,8 @@ function FolderBar({folders, currentFolder, refresh, newFolder, handleFolderChan
     }
   }
 
-  const handleFolderClick = async (foda) => {
-    handleFolderChange(foda)
+  const handleFolderClick = (foda) => {
+    handleFolderChange(foda);
   }
 
   if(newFolder){

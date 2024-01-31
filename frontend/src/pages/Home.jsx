@@ -5,18 +5,16 @@ import NotesBar from '../components/NotesBar'
 import Note from '../components/Note'
 
 const Home = () => {
+    console.log("MOUNTING HOME")
 
     const [refresh, setRefresh] = useState(null);
     const [note, setNote] = useState(null);
     const [notes, setNotes] = useState(null);
     const [folders, setFolders] = useState(null);
     const [currentFolder, setCurrentFolder] = useState(null);
+    const [folderSwitch, setFolderSwitch] = useState(false);
+    const [currentNote, setCurrentNote] = useState(null);
     const jsx = [];
-
-    const handleRefresh = (e) => {
-        console.log('REFRESHING - changing parent state');
-        setRefresh(e);
-    }
     
     //fetching folders
     useEffect(() => {
@@ -26,11 +24,12 @@ const Home = () => {
 
             if(response.ok) {
                 setFolders(json);
-                setCurrentFolder(json[0]);
+                currentFolder ? setFolderSwitch(!folderSwitch): setCurrentFolder(json[0]);
             }
         };
 
         fetchFolders();
+        loadJsx();
     }, [refresh])
 
     //fetching notes
@@ -46,36 +45,49 @@ const Home = () => {
                         setNote(json[0]);
                     }
                 } else {
-                    console.log(currentFolder);
                     const response = await fetch(`http://localhost:4000/notes/folder/${currentFolder._id}`);
                     const json = await response.json();
     
                     if(response.ok) {
-                        console.log(json);
                         setNotes(json);
-                        setNote(json[0]);
+                        json.length == 0 ? setNote(null) : setNote(json[0]);
                     }       
                 }
             }
             }
         fetchNotes();
-    }, [currentFolder])
+        loadJsx();
+    }, [currentFolder, folderSwitch])
 
-    if(folders) {
-        refresh == "POST folder" ?
-            jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={handleRefresh} newFolder={true}/>)
-            :
-            jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={handleRefresh} newFolder={false}/>)
+    //switching current note on notepad
+    useEffect(() => {
+        setNote(currentNote);
+        loadJsx();
+        console.log("DEBUG");
+    }, [currentNote])
+
+    function loadJsx() {
+        if(folders) {
+            refresh == "POST folder" ?
+                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolder={true}/>)
+                :
+                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolder={false}/>)
+        }
+        if(notes) {
+            if(notes.length == 0 ){
+                console.log('11111111111111111');
+                console.log(note);
+                jsx.push(<><NotesBar handleNoteChange={setCurrentNote} notes={[]} refresh={setRefresh} curNote={currentNote} /><Note note={note} refresh={setRefresh} /></>);
+            } else {
+                console.log('22222222222222222');
+                console.log(note);
+                jsx.push(<><NotesBar handleNoteChange={setCurrentNote} notes={notes} refresh={setRefresh} curNote={currentNote} /><Note note={note} refresh={setRefresh} /></>)
+            } 
+        }
     }
-    if(notes) {
-        if(notes.length == 0 ){
-            console.log('11111111111111111');
-            jsx.push(<><NotesBar refresh={handleRefresh}/><Note refresh={handleRefresh} /></>);
-        } else {
-            console.log('22222222222222222');
-            jsx.push(<><NotesBar notes={notes} refresh={handleRefresh} /><Note note={note} refresh={handleRefresh} /></>)
-        } 
-    }
+
+    //loadJsx when something happens. For some reason Home is loading again after Note has been mounted.
+    loadJsx();
 
     return(
         <div className="home">

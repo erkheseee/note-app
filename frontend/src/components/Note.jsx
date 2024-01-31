@@ -4,41 +4,51 @@ import PropTypes from 'prop-types';
 function Note({note, refresh}) {
   const [noteObject, setNoteObject] = useState(null);
   const [error, setError] = useState(null);
+  const [typed, setTyped] = useState(false);
 
   useEffect(() => {
-    setNoteObject({id: note._id, text: note.text});
-  }, [])
+    setNoteObject(note);
+  }, [note])
+
+  const handleTyping = async (e) => {
+    setNoteObject((noteObject) => ({...noteObject, text: e.target.value}));
+    setTyped(!typed);
+  }
 
   useEffect(() => {
-    noteObject && handleChange();
-  }, [noteObject])
+    handleChange();
+  }, [typed])
 
   const handleChange = async () => {
-    const testObject = {text: noteObject.text};
+    console.log('this is handle chagne')
+    //handleChange is running without me editing the notepad for some reason
+    if(noteObject) {
+      const testObject = {"text": noteObject.text};
 
-    const response = await fetch(`http://localhost:4000/notes/note/${noteObject.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(testObject),
-      headers: {
-        'Content-Type': 'application/json',
+      const response = await fetch(`http://localhost:4000/notes/note/${noteObject._id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(testObject),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const json = await response.json();
+
+      if(!response.ok) {
+        setError(json.error);
       }
-    });
-    const json = await response.json();
-
-    if(!response.ok) {
-      setError(json.error);
-    }
-    if(response.ok) {
-      setError(null);
-      refresh(noteObject.text);
-      console.log('Note has been updated');
+      if(response.ok) {
+        setError(null);
+        console.log('Note has been updated');
+        refresh(Math.random());
+      }
     }
   }
 
   return (
     <div className="note">
-      {note ? (
-        <input className="notepad" type="text" value={noteObject.text} onChange={(e) => setNoteObject((noteObject) => ({...noteObject, text: e.target.value}))}></input>
+      {noteObject ? (
+        <input className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)}></input>
       ):(<div>No notes selected</div>)}
     </div>
   )
