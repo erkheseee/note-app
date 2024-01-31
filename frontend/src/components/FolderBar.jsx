@@ -7,18 +7,19 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   const [newFolder, setNewFolder] = useState('New Folder');
   let jsx = [];
 
-  // useEffect(() => {
-  //   if(newFolderParent){
-  //     setNewFolder(folders[0]);
-  //   }
-  // }, [newFolderParent])
+  useEffect(() => {
+    console.log("ORDER",folders);
+    if(newFolderParent){
+      setNewFolder(folders[0]);
+    }
+  }, [folders])
 
   const handleTyping = (e) => {
-    setNewFolder((newFolder) => ({...newFolder, "text": e.target.value}));
+    setNewFolder({...newFolder, text: e.target.value});
   }
 
   const handleFocusOut = async () => {
-    const response = await fetch(`http://localhost:4000/notes/folder/${currentFolder._id}`, {
+    const response = await fetch(`http://localhost:4000/notes/folder/${newFolder._id}`, {
       method: 'PATCH',
       body: JSON.stringify({text: newFolder.text}),
       headers: {
@@ -32,8 +33,8 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     }
     if(response.ok) {
       setError(null);
-      setNewFolder(null);
-      refresh('POST folder');
+      setNewFolder("New Folder");
+      refresh({method: 'PATCH folder', id: json._id});
       console.log('The folder has been renamed');
     }
   }
@@ -53,11 +54,12 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     }
     if(response.ok) {
       setError(null);
-      refresh('POST folder');
+      refresh({method: 'POST folder', id: json._id});
       console.log('A folder has been created');
     }
   }
 
+  // delete hiiher All Note ru ochdgin boliulaad suuld baisan folder dere baih. bur magadgu note bolon notepad d nuluugui baih
   const handleDelete = async (id) => {
     const response = await fetch(`http://localhost:4000/notes/folder/${id}`, {
       method: 'DELETE',
@@ -69,8 +71,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     }
     if(response.ok) {
       setError(null);
-      console.log('The folder has been deleted');
-      refresh(`DELETE folder`);
+      refresh({method: `DELETE folder`, id: id});
     }
   }
 
@@ -78,25 +79,25 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     handleFolderChange(foda);
   }
 
-  if(newFolderParent){
-    jsx.push(<input key={newFolder._id} className="folder-rename" type="text" value={newFolder} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus/>);
-    folders.map((folder, index) => {
-      if(folder._id == newFolder._id) {
-        folders.splice(index, 1);
-      }
-    })
-  }
   if(folders){
-    folders.sort(function(a, b) {
+    const copyFolders = folders.slice().sort(function(a, b) {
       var textA = a.text.toUpperCase();
       var textB = b.text.toUpperCase();
       return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-  });
-      folders.map((folder) => {jsx.push(<button className={folder._id == currentFolder._id ? "current-folder" : "folder"} key={folder._id} onClick={() => handleFolderClick(folder)}>
-      <div className="icon"></div>
-      <div className="text">{folder.text}</div>
-      <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div>
-    </button>)}
+    });
+
+    copyFolders.map((folder) => {
+      if(newFolderParent && folder._id == newFolder._id){
+          jsx.push(<input className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus/>); 
+      }
+        jsx.push(<button className={folder._id == currentFolder._id ? "current-folder" : "folder"} key={folder._id} onClick={() => handleFolderClick(folder)}>
+          <div className="icon"></div>
+          <div className="text">{folder.text}</div>
+          <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div>
+        </button>)
+    }
+    
+
     );
   }
 

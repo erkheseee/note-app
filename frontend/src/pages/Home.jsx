@@ -24,7 +24,7 @@ const Home = ({initial}) => {
 
             if(response.ok) {
                 setFolders(json);
-                if(currentFolder == null || refresh == "DELETE folder") {
+                if(currentFolder == null || refresh.method == "DELETE folder") {
                     json.map((folder) => {
                         folder._id == ALLNOTES ? setCurrentFolder(folder) : console.log("Error, All Notes folder has been removed");
                     })
@@ -73,10 +73,10 @@ const Home = ({initial}) => {
 
     function loadJsx() {
         if(folders) {
-            refresh == "POST folder" ?
-                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={true}/>)
-                :
-                jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>)
+            if(refresh){
+                refresh.method == "POST folder" ? jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={true}/>)
+                : jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>);
+            } else jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>)
         }
         if(notes) {
             if(notes.length == 0 ){
