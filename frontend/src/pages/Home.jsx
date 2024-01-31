@@ -76,11 +76,9 @@ const Home = () => {
         if(notes) {
             if(notes.length == 0 ){
                 console.log('11111111111111111');
-                console.log(note);
                 jsx.push(<><NotesBar handleNoteChange={setCurrentNote} notes={[]} refresh={setRefresh} curNote={currentNote} /><Note note={note} refresh={setRefresh} /></>);
             } else {
                 console.log('22222222222222222');
-                console.log(note);
                 jsx.push(<><NotesBar handleNoteChange={setCurrentNote} notes={notes} refresh={setRefresh} curNote={currentNote} /><Note note={note} refresh={setRefresh} /></>)
             } 
         }

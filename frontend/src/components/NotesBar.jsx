@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import SearchBar from "./SearchBar";
 import PropTypes from 'prop-types';
 
-function NotesBar({notes, handleNoteChange, refresh}) {
+function NotesBar({notes, handleNoteChange}) {
   const [currentNote, setCurrentNote] = useState(notes[0]);
 
   useEffect(() => {
-    setCurrentNote(notes[0]);
+    notes.length == 0 ? setCurrentNote([]) : setCurrentNote(notes[0]);
   }, [notes])
 
   const handleNoteClick = (nootaa) => {
@@ -40,7 +40,6 @@ function NotesBar({notes, handleNoteChange, refresh}) {
 NotesBar.propTypes = {
   notes: PropTypes.array,
   handleNoteChange: PropTypes.func,
-  refresh: PropTypes.func,
 }
 
 export default NotesBar
