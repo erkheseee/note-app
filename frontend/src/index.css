@@ -44,11 +44,17 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+.folder-open{
+  color: var(--yellow);
+}
+#current .folder-open{
+  color: #fff;
+}
 .folder{
   background-color: #fbfbfd;
   border-radius: 10px;
   border-width: 0;
-  height: 30px;
+  height: 35px;
   display: flex;
   width: 100%;
   align-items: center;
@@ -63,8 +69,22 @@ body {
 }
 .folder:hover{
   background-color: lightgray;
-  opacity: 0.5;
+  opacity: 1;
   transition: 0.3s;
+}
+
+.folder-options{
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+}
+.folder-options:hover{
+  background-color: var(--yellow);
+  opacity: 1;
+  transition: 0.3s;
+}
+.folder-open:hover{
+  color: #fff;
 }
 .text{
   flex-grow: 1;
@@ -89,7 +109,6 @@ body {
 .new-folder-button:hover{
   background-color: var(--yellow);
   color: #fff;
-  opacity: 0.5;
   transition: 0.3s;
 }
 .folder-rename{
@@ -156,7 +175,7 @@ div.invisible-line{
 }
 .note-button:hover{
   background-color: lightgray;
-  opacity: 0.5;
+  opacity: 1;
   transition: 0.3s;
 }
 
@@ -199,7 +218,7 @@ button{
 }
 button:hover{
   background-color: lightgray;
-  opacity: 0.5;
+  opacity: 1;
   transition: 0.3s;
 }
 .note-header{

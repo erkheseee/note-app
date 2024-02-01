@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
+import { faFolderOpen } from "@fortawesome/free-regular-svg-icons"
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
 
 function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFolderChange}) {
 
@@ -96,14 +98,19 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
       }
       else if(folder._id == ALLNOTES){
         jsx.push(<button id={folder._id == currentFolder._id && "current"} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
-          <div className="icon"></div>
+          <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
+          <div style={{width: '3%'}}></div>
           <div className="text">{folder.text}</div>
         </button>)
       } else {
       jsx.push(<button id={folder._id == currentFolder._id && "current"} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
-          <div className="icon"></div>
+          <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
+          <div style={{width: '3%'}}></div>
           <div className="text">{folder.text}</div>
-          <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div>
+          <button className='folder-options'>
+            <FontAwesomeIcon icon={faEllipsis} className='folder-open' />
+          </button>
+          {/* <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div> */}
         </button>)
       }
     }
