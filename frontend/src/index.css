@@ -5,9 +5,11 @@
 body {
   margin: 0;
   font-family: "Poppins";
-  overflow-y: hidden;
+  overflow: hidden;
 }
 :root {
+  --yellow: rgb(237, 187, 0);
+  --yellow-hover: #c09c34;
   --primary: #1aac83;
   --error: #e7195a;
 }
@@ -32,11 +34,15 @@ body {
 }
 .folder-bar{
   background-color: #fbfbfd;
-  flex: 18;
+  /* flex: 1; */
+  width: 250px;
   border: solid lightgray;
   border-width: 0 .1px 0 0;
   height: 95vh;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .folder{
   background-color: #fbfbfd;
@@ -51,6 +57,10 @@ body {
   padding-right: 15px;
   margin: 1px;
 }
+#current:hover{
+  background-color: var(--yellow-hover);
+  transition: 0.3s;
+}
 .folder:hover{
   background-color: lightgray;
   opacity: 0.5;
@@ -62,30 +72,28 @@ body {
 .delete{
   flex-shrink: 0;
 }
-.current-folder{
-  background-color: #c09c34;
-  border-radius: 10px;
+.new-folder-button{
+  bottom: 0;
+  background-color: unset;
   border-width: 0;
+  border-radius: 5px;
   height: 30px;
-  display: flex;
   width: 100%;
+  margin-bottom: 8%;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  text-align: start;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin: 1px;
+  color: var(--yellow);
+  font-weight: bold;
 }
-.current-folder:hover{
-  background-color: lightgray;
+.new-folder-button:hover{
+  background-color: var(--yellow);
+  color: #fff;
   opacity: 0.5;
   transition: 0.3s;
 }
-.new-folder-button{
-  position: fixed;
-  bottom: 0;
-}
 .folder-rename{
-  background-color: #1aac83;
+  background-color: grey;
   border-radius: 10px;
   height: 30px;
   display: flex;
@@ -95,8 +103,25 @@ body {
   margin: 1px;
 }
 
+input{
+  all: unset;
+}
+.search-bar{
+  flex: 1;
+  background-color: lightgray;
+  border-radius: 10px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 10px;
+  color: gray;
+}
 .notes-bar{
-  flex: 22;
+  /* flex: 1; */
+  width: 300px;
   background-color: #fff;
   border: solid lightgray;
   border-width: 0 .1px 0 0;
@@ -104,45 +129,30 @@ body {
 }
 div.line{
   height: 1px;
-  width: 100%;
   background-color: lightgray;
 }
 div.invisible-line{
   height: 1px;
-  width: 100%;
   background-color: #fff;
   
 }
-.current-note-button{
-  background-color: #c09c34;
-  border-radius: 10px;
-  border-width: 0px;
-  height: 90px;
-  width: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 30px;
-  padding-right: 30px;
-  margin: 1px;
-}
-.current-note-button:hover{
-  background-color: lightgray;
-  opacity: 0.5;
-  transition: 0.3s;
+
+#current{
+  background-color: var(--yellow);
+  color: #fff;
 }
 .note-button{
+  flex: 1;
+  max-width: auto;
   background-color:  #fff;
   border-radius: 10px;
   border-width: 0px;
-  height: 90px;
-  width: 250px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 5%;
+  padding-right: 5%;
   margin: 1px;
+  padding-bottom: 5%;
 }
 .note-button:hover{
   background-color: lightgray;
@@ -151,35 +161,68 @@ div.invisible-line{
 }
 
 .note{
-  flex: 60;
+  flex: 30;
 }
-
+.notepad{
+  height: 100vh;
+  width: 100%;
+  margin: 20px;
+}
 textarea{
   all: unset;
+  display: inline-block;
+}
+textarea::first-line{
+  font-size: x-large ;
+  font-weight: 700;
 }
 
+.noteTitle{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical; */
+}
+.noteText{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+button{
+  background-color: unset;
+  border-width: 0;
+  border-radius: 5px;
+}
+button:hover{
+  background-color: lightgray;
+  opacity: 0.5;
+  transition: 0.3s;
+}
 .note-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 10px;
 }
-.delete{
-
+.delete-note{
+  width: 30px;
+  height: 30px;
+}
+.trash-can{
+  color: var(--yellow);
+  width: 20px;
+  height: 20px;
 }
 .create-note{
-
+  width: 30px;
+  height: 30px;
 }
-
-.notepad{
-  height: 100vh;
-  width: 100%;
-  margin: 10px;
-}
-.noteTitle{
-  overflow: hidden;
-  /* text-align: start; */
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+.pen-to-square{
+  color: var(--yellow);
+  width: 20px;
+  height: 20px;
 }

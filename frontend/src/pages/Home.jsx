@@ -77,15 +77,17 @@ const Home = ({initial}) => {
                 refresh.method == "POST folder" ? jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={true}/>)
                 : jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>);
             } else jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>)
-        }
-        if(notes) {
-            if(notes.length == 0 ){
-                console.log('11111111111111111');
-                jsx.push(<><NotesBar handleNoteChange={setCurrentNote} notes={[]} refresh={setRefresh} curNote={currentNote} /><Note note={note} refresh={setRefresh} /></>);
-            } else {
-                console.log('22222222222222222');
-                jsx.push(<><NotesBar handleNoteChange={setCurrentNote} notes={notes} refresh={setRefresh} curNote={currentNote} /><Note note={note} refresh={setRefresh} /></>)
-            } 
+            if(notes) {
+                if(notes.length == 0 ){
+                    console.log('11111111111111111');
+                    jsx.push(<NotesBar handleNoteChange={setCurrentNote} notes={[]} refresh={setRefresh} curNote={currentNote} />);
+                    jsx.push(<Note note={note} refresh={setRefresh} />);
+                } else {
+                    console.log('22222222222222222');
+                    jsx.push(<NotesBar handleNoteChange={setCurrentNote} notes={notes} refresh={setRefresh} curNote={currentNote} />);
+                    jsx.push(<Note note={note} refresh={setRefresh} />)
+                } 
+            }
         }
     }
 

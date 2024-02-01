@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
 
 function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFolderChange}) {
 
@@ -7,6 +9,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   const [error, setError] = useState(null);
   const [newFolder, setNewFolder] = useState('New Folder');
   let jsx = [];
+  let jsx2 = [];
 
   useEffect(() => {
     console.log("ORDER",folders);
@@ -92,12 +95,12 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
           jsx.push(<input className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus/>); 
       }
       else if(folder._id == ALLNOTES){
-        jsx.push(<button className={folder._id == currentFolder._id ? "current-folder" : "folder"} key={folder._id} onClick={() => handleFolderClick(folder)}>
+        jsx.push(<button id={folder._id == currentFolder._id && "current"} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
           <div className="icon"></div>
           <div className="text">{folder.text}</div>
         </button>)
       } else {
-      jsx.push(<button className={folder._id == currentFolder._id ? "current-folder" : "folder"} key={folder._id} onClick={() => handleFolderClick(folder)}>
+      jsx.push(<button id={folder._id == currentFolder._id && "current"} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
           <div className="icon"></div>
           <div className="text">{folder.text}</div>
           <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div>
@@ -106,15 +109,26 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     }
     );
     if(newFolderParent) {
-      jsx.push(<button className="new-folder-button" onClick={() => createFolder()} disabled>+ New Folder</button>)
+      jsx2.push(<button className="new-folder-button" onClick={() => createFolder()} disabled>
+        <FontAwesomeIcon icon={faCirclePlus} className='circle-plus'/>
+        <div style={{width: '2%'}}></div>
+        <div>New Folder</div>
+      </button>)
     } else {
-      jsx.push(<button className="new-folder-button" onClick={() => createFolder()}>+ New Folder</button>);
+      jsx2.push(<button className="new-folder-button" onClick={() => createFolder()}>
+        <FontAwesomeIcon icon={faCirclePlus} className='circle-plus'/>
+        <div style={{width: '2%'}}></div>
+        <div>New Folder</div>
+      </button>);
     }
   }
 
   return (
       <div className="folder-bar">
-        {jsx}
+        <div>
+          {jsx}
+        </div>
+        {jsx2}
       </div>
   )
 }

@@ -39,15 +39,19 @@ function NotesBar({notes, handleNoteChange}) {
       <div className="notes-bar">
             <SearchBar />
             {notes && notes.map((note, index, self) => (
-              <>
-                <div className={note._id == currentNote._id ? "current-note-button" : "note-button"} key={note._id} onClick={() => handleNoteClick(note)}>
-                    <h4 className="noteTitle">{note.text}</h4>
-                    {/* <p className="noteText">{note.text}</p> */}
-                    <div className="note-details">{formatDate(note.updatedAt)}</div>
-                    {/* <div className="parent-folder">{note.folder}</div> */}
+              <div key={note._id}>
+                <div id={note._id == currentNote._id && "current"} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
+                    <div style={{maxWidth: 'inherit'}}>
+                      <h3 className="noteTitle">{note.text.split('\n')[0]}</h3>
+                    </div>
+                    <div style={{display: 'flex'}}>
+                      <div className="note-details">{formatDate(note.updatedAt)}</div>
+                      <div style={{width: '15px'}}></div>
+                      <div className="noteText">{note.text.split('\n')[1]}</div>
+                    </div>
                 </div>
                 <div className={lineLogic(self, index)}></div>
-              </>
+              </div>
             ))}
         </div>
   )
@@ -64,6 +68,7 @@ function NotesBar({notes, handleNoteChange}) {
 NotesBar.propTypes = {
   notes: PropTypes.array,
   handleNoteChange: PropTypes.func,
+  folders: PropTypes.array,
 }
 
 export default NotesBar

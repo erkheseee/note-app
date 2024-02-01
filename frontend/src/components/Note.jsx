@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons"
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons"
 
 function Note({note, refresh}) {
   const [noteObject, setNoteObject] = useState(null);
@@ -54,8 +57,8 @@ function Note({note, refresh}) {
       {noteObject ? (
         <>
           <div className="note-header">
-            <button className="delete" onClick={() => handleDelete(noteObject._id)}>delete</button>
-            <button className="new-note-button">create note</button>
+            <button className="delete-note" onClick={() => handleDelete(noteObject._id)}><FontAwesomeIcon icon={faTrashCan} className='trash-can'/></button>
+            <button className="create-note"><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
           </div>
           <textarea className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)}></textarea>
         </>
