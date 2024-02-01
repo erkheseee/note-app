@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFolderChange}) {
 
+  const ALLNOTES = "65b8b73e684f38e3adbe2675";
   const [error, setError] = useState(null);
   const [newFolder, setNewFolder] = useState('New Folder');
   let jsx = [];
@@ -90,11 +91,18 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
       if(newFolderParent && folder._id == newFolder._id){
           jsx.push(<input className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus/>); 
       }
+      else if(folder._id == ALLNOTES){
         jsx.push(<button className={folder._id == currentFolder._id ? "current-folder" : "folder"} key={folder._id} onClick={() => handleFolderClick(folder)}>
+          <div className="icon"></div>
+          <div className="text">{folder.text}</div>
+        </button>)
+      } else {
+      jsx.push(<button className={folder._id == currentFolder._id ? "current-folder" : "folder"} key={folder._id} onClick={() => handleFolderClick(folder)}>
           <div className="icon"></div>
           <div className="text">{folder.text}</div>
           <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div>
         </button>)
+      }
     }
     );
     if(newFolderParent) {

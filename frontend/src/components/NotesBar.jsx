@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 function NotesBar({notes, handleNoteChange}) {
   const [currentNote, setCurrentNote] = useState(notes[0]);
 
+  //format date
+  const formatDate = (date) => {
+    const test = new Date(date);
+    return test.toLocaleDateString(); // 5/12/2020
+  }
+
   useEffect(() => {
     notes.length == 0 ? setCurrentNote([]) : setCurrentNote(notes[0]);
   }, [notes])
@@ -14,16 +20,34 @@ function NotesBar({notes, handleNoteChange}) {
     handleNoteChange(nootaa);
   }
 
+  const lineLogic = (a ,index) => {
+    if(a[index]._id == currentNote._id){
+      return "invisible-line";
+    } else {
+      if(a.length > index+1){
+        if(a[index + 1]._id == currentNote._id) {
+          return "invisible=line";
+        } else {
+          return "line";
+        }
+      }
+    }
+  }
+
   if(notes.length != 0){
     return (
       <div className="notes-bar">
             <SearchBar />
-            {notes && notes.map((note) => (
-                <button className={note._id == currentNote._id ? "current-note-button" : "note-button"} key={note._id} onClick={() => handleNoteClick(note)}>
-                    <p className="title">{note.text}</p>
-                    <div className="note-details">{note.updatedAt}</div>
-                    <div className="parent-folder">{note.folder}</div>
-                </button>
+            {notes && notes.map((note, index, self) => (
+              <>
+                <div className={note._id == currentNote._id ? "current-note-button" : "note-button"} key={note._id} onClick={() => handleNoteClick(note)}>
+                    <h4 className="noteTitle">{note.text}</h4>
+                    {/* <p className="noteText">{note.text}</p> */}
+                    <div className="note-details">{formatDate(note.updatedAt)}</div>
+                    {/* <div className="parent-folder">{note.folder}</div> */}
+                </div>
+                <div className={lineLogic(self, index)}></div>
+              </>
             ))}
         </div>
   )

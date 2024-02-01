@@ -45,10 +45,20 @@ function Note({note, refresh}) {
     }
   }
 
+  const handleDelete = async () => {
+    
+  }
+
   return (
     <div className="note">
       {noteObject ? (
-        <input className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)}></input>
+        <>
+          <div className="note-header">
+            <button className="delete" onClick={() => handleDelete(noteObject._id)}>delete</button>
+            <button className="new-note-button">create note</button>
+          </div>
+          <textarea className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)}></textarea>
+        </>
       ):(<div>No notes selected</div>)}
     </div>
   )
