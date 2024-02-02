@@ -37,22 +37,22 @@ function NotesBar({notes, handleNoteChange}) {
   if(notes.length != 0){
     return (
       <div className="notes-bar">
-            <SearchBar />
-            {notes && notes.map((note, index, self) => (
-              <div key={note._id}>
-                <div id={note._id == currentNote._id && "current"} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
-                    <div style={{maxWidth: 'inherit'}}>
-                      <h3 className="noteTitle">{note.text.split('\n')[0]}</h3>
-                    </div>
-                    <div style={{display: 'flex'}}>
-                      <div className="note-details">{formatDate(note.updatedAt)}</div>
-                      <div style={{width: '15px'}}></div>
-                      <div className="noteText">{note.text.split('\n')[1]}</div>
-                    </div>
-                </div>
-                <div className={lineLogic(self, index)}></div>
+          <SearchBar />
+          {notes && notes.map((note, index, self) => (
+            <div key={note._id}>
+              <div id={note._id == currentNote._id && "current"} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
+                  <div style={{maxWidth: 'inherit'}}>
+                    <h3 className="noteTitle">{note.text.split('\n')[0]}</h3>
+                  </div>
+                  <div style={{display: 'flex'}}>
+                    <div className="note-details">{formatDate(note.updatedAt)}</div>
+                    <div style={{width: '15px'}}></div>
+                    <div className="noteText">{note.text.split('\n')[1]}</div>
+                  </div>
               </div>
-            ))}
+              <div className={lineLogic(self, index)}></div>
+            </div>
+          ))}
         </div>
   )
   } else {
