@@ -81,11 +81,11 @@ const Home = ({initial}) => {
                 if(notes.length == 0 ){
                     console.log('11111111111111111');
                     jsx.push(<NotesBar handleNoteChange={setCurrentNote} notes={[]} refresh={setRefresh} curNote={currentNote} />);
-                    jsx.push(<Note note={note} refresh={setRefresh} />);
+                    jsx.push(<Note note={note} refresh={setRefresh} handleFolderChange={setCurrentFolder} currentFolder={currentFolder} />);
                 } else {
                     console.log('22222222222222222');
                     jsx.push(<NotesBar handleNoteChange={setCurrentNote} notes={notes} refresh={setRefresh} curNote={currentNote} />);
-                    jsx.push(<Note note={note} refresh={setRefresh} />)
+                    jsx.push(<Note note={note} refresh={setRefresh} handleFolderChange={setCurrentFolder} currentFolder={currentFolder} />)
                 } 
             }
         }

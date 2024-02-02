@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons"
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons"
 
-function Note({note, refresh}) {
+function Note({note, refresh, currentFolder}) {
   const [noteObject, setNoteObject] = useState(null);
   const [error, setError] = useState(null);
   const [typed, setTyped] = useState(false);
@@ -43,13 +43,45 @@ function Note({note, refresh}) {
       if(response.ok) {
         setError(null);
         console.log('Note has been updated');
-        refresh(Math.random());
+        refresh({method: 'PATCH NOTE', id: Math.random()});
       }
     }
   }
 
-  const handleDelete = async () => {
-    
+  const handleDelete = async (id) => {
+    const response = await fetch(`http://localhost:4000/notes/note/${id}`, {
+      method: 'DELETE',
+    });
+    const json = await response.json();
+
+    if(!response.ok) {
+      setError(json.error);
+    }
+    if(response.ok) {
+      setError(null);
+      console.log('Note has been deleted');
+      refresh({method: 'DELETE note', id: id});
+    }
+  }
+
+  const handleCreate = async (obj) => {
+    const response = await fetch(`http://localhost:4000/notes/note/`, {
+      method: 'POST',
+      body: JSON.stringify({text: " ", folder: obj._id}),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    const json = await response.json();
+
+    if(!response.ok) {
+      setError(json.error);
+    }
+    if(response.ok) {
+      setError(null);
+      refresh({method: 'POST note', id: json._id});
+      console.log('A note has been created');
+    }
   }
 
   return (
@@ -58,11 +90,19 @@ function Note({note, refresh}) {
         <>
           <div className="note-header">
             <button className="delete-note" onClick={() => handleDelete(noteObject._id)}><FontAwesomeIcon icon={faTrashCan} className='trash-can'/></button>
-            <button className="create-note"><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
+            <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
           </div>
           <textarea className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)}></textarea>
         </>
-      ):(<div>No notes selected</div>)}
+      ):(
+      <>
+        <div className="note-header">
+          <div></div>
+          <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
+        </div>
+        <div>No notes selected</div>
+      </>
+      )}
     </div>
   )
 }
@@ -70,6 +110,7 @@ function Note({note, refresh}) {
 Note.propTypes = {
   note: PropTypes.object,
   refresh: PropTypes.func,
+  currentFolder: PropTypes.object,
 }
 
 export default Note
