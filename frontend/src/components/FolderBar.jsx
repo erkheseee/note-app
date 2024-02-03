@@ -18,6 +18,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
       y: 0,
     },
     toggled: false,
+    id: null,
   })
   const [clickedOptions, setClickedOptions] = useState(null);
   const [error, setError] = useState(null);
@@ -35,12 +36,14 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
               y: 0,
             },
             toggled: false,
+            id: null,
           });
           setClickedOptions(null);
         }
       }
     }
 
+    // document.addEventListener('', handler);
     document.addEventListener('click', handler);
 
     return () => {
@@ -100,6 +103,19 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     }
   }
 
+  const handleRename = (id) => {
+    alert(id);
+
+    setContextMenu({
+      position: {
+        x: 0,
+        y: 0,
+      },
+      toggled: false,
+      id: null,
+    });
+  }
+
   // delete hiiher All Note ru ochdgin boliulaad suuld baisan folder dere baih. bur magadgu note bolon notepad d nuluugui baih
   const handleDelete = async (id) => {
     const response = await fetch(`http://localhost:4000/notes/folder/${id}`, {
@@ -112,8 +128,17 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     }
     if(response.ok) {
       setError(null);
-      refresh({method: `DELETE folder`, id: id});
+      currentFolder._id == id ? refresh({method: `DELETE current folder`, id: id}) : refresh({method: 'DELETE folder', id: id})
     }
+
+    setContextMenu({
+      position: {
+        x: 0,
+        y: 0,
+      },
+      toggled: false,
+      id: null,
+    });
   }
 
   const handleFolderClick = (foda) => {
@@ -141,7 +166,8 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
         x,
         y
       },
-      toggled: true
+      toggled: true,
+      id: item._id,
     });
 
     setClickedOptions(item);
@@ -159,53 +185,56 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
           jsx.push(<input className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus/>); 
       }
       else if(folder._id == ALLNOTES){
-        jsx.push(<button id={folder._id == currentFolder._id && "current"} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
+        jsx.push(<button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
           <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
           <div style={{width: '3%'}}></div>
           <div className="text">{folder.text}</div>
         </button>)
       } else {
-      jsx.push(<button id={folder._id == currentFolder._id && "current"} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
+      jsx.push(<><button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
           <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
           <div style={{width: '3%'}}></div>
           <div className="text">{folder.text}</div>
           <div className='menu'>
-            <button id={clickedOptions && clickedOptions._id == folder._id ? 'clicked' : ''} className='folder-options' onContextMenu={(e) => handleContextMenu(e, folder)}>
+            <div id={clickedOptions && clickedOptions._id == folder._id ? 'clicked' : undefined} className='folder-options' onContextMenu={(e) => handleContextMenu(e, folder)}>
               <FontAwesomeIcon icon={faEllipsis} className='folder-open' />
-            </button>
+            </div>
           </div>
-          {/* <div className="delete" onClick={() => handleDelete(folder._id)}>delete</div> */}
-        </button>)
-      }
+        </button> 
+      </>
+      )
     }
-    );
+  }
+  );
 
-    jsx.push(<ContextMenu 
-      contextMenuRef = {contextMenuRef}
-      isToggled={contextMenu.toggled}
-      positionX = {contextMenu.position.x}
-      positionY = {contextMenu.position.y}
-      buttons={[
-        {
-          text: "Rename",
-          icon: <FontAwesomeIcon icon={faPen}/>,
-          onClick: () => alert("rename"),
-          isSpacer: false,
-        },
-        {
-          text: "",
-          icon: "",
-          onClick: () => null,
-          isSpacer: true,
-        },
-        {
-          text: "Delete",
-          icon: <FontAwesomeIcon icon={faTrashCan}/>,
-          onClick: () => alert("trash"),
-          isSpacer: false
-        }
-      ]}
-    />)
+  jsx.push(<ContextMenu 
+          contextMenuRef = {contextMenuRef}
+          isToggled={contextMenu.toggled}
+          positionX = {contextMenu.position.x}
+          positionY = {contextMenu.position.y}
+          id = {contextMenu.id}
+          buttons={[
+            {
+              text: "Rename",
+              icon: <FontAwesomeIcon icon={faPen}/>,
+              onClick: handleRename,
+              isSpacer: false,
+            },
+            {
+              text: "",
+              icon: "",
+              onClick: () => null,
+              isSpacer: true,
+            },
+            {
+              text: "Delete",
+              icon: <FontAwesomeIcon icon={faTrashCan}/>,
+              onClick: handleDelete,
+              isSpacer: false
+            }
+          ]}
+        />)
+
     if(newFolderParent) {
       jsx2.push(<button className="new-folder-button" onClick={() => createFolder()} disabled>
         <FontAwesomeIcon icon={faCirclePlus} className='circle-plus'/>

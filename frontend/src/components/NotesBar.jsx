@@ -40,7 +40,7 @@ function NotesBar({notes, handleNoteChange}) {
           <SearchBar />
           {notes && notes.map((note, index, self) => (
             <div key={note._id}>
-              <div id={note._id == currentNote._id && "current"} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
+              <div id={note._id == currentNote._id ? "current" : undefined} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
                   <div style={{maxWidth: 'inherit'}}>
                     <h3 className="noteTitle">{note.text.split('\n')[0]}</h3>
                   </div>

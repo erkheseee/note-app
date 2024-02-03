@@ -1,7 +1,7 @@
 import './ContextMenu.css';
 
 const ContextMenu = ({
-    rightClickItem,
+    id,
     positionX,
     positionY,
     isToggled,
@@ -18,16 +18,15 @@ const ContextMenu = ({
             ref={contextMenuRef}
         >
             {buttons.map((button, index) => {
-                function handleClick(e) {
-                    e.stopPropagation();
-                    button.onClick(e, rightClickItem);
+                function handleClick(a) {
+                    button.onClick(a);
                 }
 
                 if(button.isSpacer) return <hr key={index}></hr>;
 
                 return (
                     <button
-                        onClick={handleClick}
+                        onClick={() => handleClick(id)}
                         key={index}
                         className='context-menu-button'
                     >

@@ -100,7 +100,7 @@ function Note({note, refresh, currentFolder}) {
           <div></div>
           <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
         </div>
-        <textarea className="notepad" type="text" disabled>No notes selected...</textarea>
+        <textarea className="notepad" type="text" value="No notes selected..." disabled></textarea>
       </>
       )}
     </div>

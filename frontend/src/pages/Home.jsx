@@ -24,7 +24,7 @@ const Home = ({initial}) => {
 
             if(response.ok) {
                 setFolders(json);
-                if(currentFolder == null || refresh.method == "DELETE folder") {
+                if(currentFolder == null || refresh.method == "DELETE current folder") {
                     json.map((folder) => {
                         folder._id == ALLNOTES ? setCurrentFolder(folder) : console.log("Error, All Notes folder has been removed");
                     })
@@ -58,7 +58,7 @@ const Home = ({initial}) => {
                 }       
             }
         } 
-        console.log("HEEEEEEEEEERRRRREEEEEEEEE", currentFolder);
+        console.log("HEEEEEEEEEERRRRREEEEEEEEE", note   );
         if(currentFolder) fetchNotes();
 
         loadJsx();

@@ -38,7 +38,7 @@
 }
 
 .context-menu button:hover {
-    background-color: #159a9c;
+    background-color: lightgray;
     color: white;
 }
 
