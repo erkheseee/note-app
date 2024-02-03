@@ -92,7 +92,7 @@ function Note({note, refresh, currentFolder}) {
             <button className="delete-note" onClick={() => handleDelete(noteObject._id)}><FontAwesomeIcon icon={faTrashCan} className='trash-can'/></button>
             <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
           </div>
-          <textarea className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)}></textarea>
+          <textarea id="notepad" className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)} autoFocus></textarea>
         </>
       ):(
       <>
@@ -100,7 +100,7 @@ function Note({note, refresh, currentFolder}) {
           <div></div>
           <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
         </div>
-        <textarea className="notepad" type="text" value="No notes selected..." disabled></textarea>
+        <textarea className="notepad" type="text" value="No notes selected..." readOnly></textarea>
       </>
       )}
     </div>

@@ -28,6 +28,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
 
   useEffect(() => {
     const handler = e => {
+
       if (contextMenuRef.current) {
         if (!contextMenuRef.current.contains(e.target)) {
           setContextMenu({
@@ -116,7 +117,6 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     });
   }
 
-  // delete hiiher All Note ru ochdgin boliulaad suuld baisan folder dere baih. bur magadgu note bolon notepad d nuluugui baih
   const handleDelete = async (id) => {
     const response = await fetch(`http://localhost:4000/notes/folder/${id}`, {
       method: 'DELETE',
@@ -173,6 +173,11 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     setClickedOptions(item);
   } 
 
+  const selectText = () => {
+    const input = document.getElementById('input');
+    input.select();
+  }
+
   if(folders){
     const copyFolders = folders.slice().sort(function(a, b) {
       var textA = a.text.toUpperCase();
@@ -182,7 +187,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
 
     copyFolders.map((folder) => {
       if(newFolderParent && folder._id == newFolder._id){
-          jsx.push(<input className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus/>); 
+          jsx.push(<input id="input" className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus onFocus={() => selectText()}/>); 
       }
       else if(folder._id == ALLNOTES){
         jsx.push(<button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>

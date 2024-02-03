@@ -110,6 +110,9 @@ body {
 }
 .text{
   flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .delete{
   flex-shrink: 0;
@@ -237,8 +240,8 @@ h3{
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  /* -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical; */
 }
 
 button{
