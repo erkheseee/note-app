@@ -28,7 +28,6 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
 
   useEffect(() => {
     const handler = e => {
-
       if (contextMenuRef.current) {
         if (!contextMenuRef.current.contains(e.target)) {
           setContextMenu({
@@ -187,7 +186,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
 
     copyFolders.map((folder) => {
       if(newFolderParent && folder._id == newFolder._id){
-          jsx.push(<input id="input" className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus onFocus={() => selectText()}/>); 
+          jsx.push(<input id="input" className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus onFocus={() => selectText()} onKeyDown={(e) => {e.key === "Enter" && document.getElementById('input').blur()}}/>); 
       }
       else if(folder._id == ALLNOTES){
         jsx.push(<button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
