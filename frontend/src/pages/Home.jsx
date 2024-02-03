@@ -74,9 +74,9 @@ const Home = ({initial}) => {
     function loadJsx() {
         if(folders) {
             if(refresh){
-                refresh.method == "POST folder" ? jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={true}/>)
-                : jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>);
-            } else jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={false}/>)
+                ((refresh.method == "POST folder") || (refresh.method == "RENAME folder")) ? jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={refresh.id}/>)
+                : jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={null}/>);
+            } else jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={null}/>)
             if(notes) {
                 if(notes.length == 0 ){
                     console.log('11111111111111111');

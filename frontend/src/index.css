@@ -138,11 +138,13 @@ body {
   transition: 0.3s;
 }
 .folder-rename{
-  background-color: grey;
+  background-color: lightgrey;
   border-radius: 10px;
-  height: 30px;
+  height: 35px;
+  width: flex;
   display: flex;
   align-items: center;
+  text-align: start;
   padding-left: 15px;
   padding-right: 15px;
   margin: 1px;

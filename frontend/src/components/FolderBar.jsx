@@ -52,9 +52,8 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   })
 
   useEffect(() => {
-    console.log("ORDER",folders);
     if(newFolderParent){
-      setNewFolder(folders[0]);
+      folders.map((folder) => folder._id == newFolderParent && setNewFolder(folder));
     }
   }, [folders])
 
@@ -104,7 +103,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   }
 
   const handleRename = (id) => {
-    alert(id);
+    refresh({method: 'RENAME folder', id: id});
 
     setContextMenu({
       position: {
