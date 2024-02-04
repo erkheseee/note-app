@@ -63,6 +63,10 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+.folder-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .folder-open{
   color: var(--yellow);
 }
@@ -118,7 +122,6 @@ body {
   flex-shrink: 0;
 }
 .new-folder-button{
-  
   position: relative;
   bottom: 0;
   background-color: unset;

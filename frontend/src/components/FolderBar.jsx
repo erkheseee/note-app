@@ -263,7 +263,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
 
   return (
       <div className="folder-bar">
-        <div>
+        <div className="folder-scroll">
           {jsx}
         </div>
         {jsx2}
