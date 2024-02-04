@@ -19,14 +19,14 @@ function App() {
                   path='/notes'
                   element={<Home initial={initial}/>}
                 />
-                <Route 
+                {/* <Route 
                   path='/notes/folder'
                   element={<Home initial={initial} />}
                 />
                 <Route 
                   path='/notes/note'
                   element={<Home initial={initial} />}
-                />
+                /> */}
               </Routes>
             </div>
         </BrowserRouter>

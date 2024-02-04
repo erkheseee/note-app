@@ -177,23 +177,31 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   }
 
   if(folders){
-    const copyFolders = folders.slice().sort(function(a, b) {
+    let copyFolders = folders.slice();
+
+    const allNotes = copyFolders.splice(copyFolders.findIndex(object => {
+      return object._id === ALLNOTES;
+    }), 1);
+
+    copyFolders = copyFolders.sort(function(a, b) {
       var textA = a.text.toUpperCase();
       var textB = b.text.toUpperCase();
       return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
     });
 
+    if(allNotes){
+      jsx.push(<button id={allNotes[0]._id == currentFolder._id ? "current" : undefined} className="folder" key={allNotes[0]._id} onClick={() => handleFolderClick(allNotes[0])}>
+      <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
+      <div style={{width: '3%'}}></div>
+      <div className="text">{allNotes[0].text}</div>
+    </button>)
+    }
+
     copyFolders.map((folder) => {
       if(newFolderParent && folder._id == newFolder._id){
           jsx.push(<input id="input" className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus onFocus={() => selectText()} onKeyDown={(e) => {e.key === "Enter" && document.getElementById('input').blur()}}/>); 
       }
-      else if(folder._id == ALLNOTES){
-        jsx.push(<button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
-          <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
-          <div style={{width: '3%'}}></div>
-          <div className="text">{folder.text}</div>
-        </button>)
-      } else {
+      else {
       jsx.push(<><button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
           <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
           <div style={{width: '3%'}}></div>
