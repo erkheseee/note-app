@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 function NotesBar({notes, handleNoteChange}) {
   const [currentNote, setCurrentNote] = useState(notes[0]);
+  const [search, setSearch] = useState('');
 
   //format date
   const formatDate = (date) => {
@@ -31,14 +32,17 @@ function NotesBar({notes, handleNoteChange}) {
           return "line";
         }
       }
+      else return "line";
     }
   }
 
   if(notes.length != 0){
     return (
       <div className="notes-bar">
-        <SearchBar />
-        {notes && notes.map((note, index, self) => (
+        <SearchBar setSearch={setSearch}/>
+        {notes && notes.filter((note) => {
+          return search.toLowerCase() === '' ? note : note.text.toLowerCase().includes(search);
+        }).map((note, index, self) => (
           <div key={note._id}>
             <div id={note._id == currentNote._id ? "current" : undefined} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
                 <div style={{maxWidth: 'inherit'}}>
