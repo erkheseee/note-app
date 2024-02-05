@@ -16,6 +16,12 @@ app.use(express.json());
 //     next();
 // })
 
+app.get("/", (res, res) => {
+    res.json({
+        message: "Hello World"
+    });
+});
+
 //routes
 app.use('/notes/note', notesRoutes);
 app.use('/notes/folder', folderRoute);
