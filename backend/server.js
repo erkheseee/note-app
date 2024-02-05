@@ -16,7 +16,7 @@ app.use(express.json());
 //     next();
 // })
 
-app.get("/", (res, res) => {
+app.get("/", (req, res) => {
     res.json({
         message: "Hello World"
     });
