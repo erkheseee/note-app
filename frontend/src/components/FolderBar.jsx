@@ -176,6 +176,44 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     input.select();
   }
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.currentTarget.classList.add("hovering-over-folder");
+
+  }
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.currentTarget.classList.remove("hovering-over-folder");
+    e.currentTarget.classList.add("folder");
+
+  }
+
+  const handleOnDrop = async (e, folderId) => {
+    e.preventDefault();
+    e.currentTarget.classList.remove("hovering-over-folder");
+    e.currentTarget.classList.add("folder");
+    const noteId = e.dataTransfer.getData("text");
+    // note patch HERE
+    const response = await fetch(`http://localhost:4000/notes/note/${noteId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({folder: folderId}),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const json = await response.json();
+
+      if(!response.ok) {
+        setError(json.error);
+      }
+      if(response.ok) {
+        setError(null);
+        console.log('Note has been updated');
+        refresh({method: 'PATCH NOTE', id: Math.random()});
+      }
+  }
+
   if(folders){
     let copyFolders = folders.slice();
 
@@ -202,7 +240,8 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
           jsx.push(<input id="input" className="folder-rename" type="text" value={newFolder.text} onChange={(e) => handleTyping(e)} onBlur={() => handleFocusOut()} autoFocus onFocus={() => selectText()} onKeyDown={(e) => {e.key === "Enter" && document.getElementById('input').blur()}}/>); 
       }
       else {
-      jsx.push(<><button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)}>
+      jsx.push(
+        <button id={folder._id == currentFolder._id ? "current" : undefined} className="folder" key={folder._id} onClick={() => handleFolderClick(folder)} onDragOver={handleDragOver} onDrop={(e) => handleOnDrop(e, folder._id)} onDragLeave={handleDragLeave}>
           <FontAwesomeIcon icon={faFolderOpen} className='folder-open'/>
           <div style={{width: '3%'}}></div>
           <div className="text">{folder.text}</div>
@@ -211,8 +250,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
               <FontAwesomeIcon icon={faEllipsis} className='folder-open' />
             </div>
           </div>
-        </button> 
-      </>
+        </button>
       )
     }
   }

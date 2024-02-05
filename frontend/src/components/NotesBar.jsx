@@ -36,6 +36,16 @@ function NotesBar({notes, handleNoteChange}) {
     }
   }
 
+  const handleOnDrag = (e, noteId) => {
+    e.currentTarget.classList.add("dragging");
+    e.dataTransfer.clearData();
+    e.dataTransfer.setData("text/plain", noteId);
+  }
+
+  const handleOnDragEnd = (e) => {
+    e.target.classList.remove('dragging');
+  }
+
   if(notes.length != 0){
     return (
       <div className="notes-bar">
@@ -43,7 +53,7 @@ function NotesBar({notes, handleNoteChange}) {
         {notes && notes.filter((note) => {
           return search.toLowerCase() === '' ? note : note.text.toLowerCase().includes(search);
         }).map((note, index, self) => (
-          <div key={note._id}>
+          <div key={note._id} draggable onDragStart={(e) => handleOnDrag(e, note._id)} onDragEnd={(e) => handleOnDragEnd(e)}>
             <div id={note._id == currentNote._id ? "current" : undefined} className="note-button" key={note._id} onClick={() => handleNoteClick(note)}>
                 <div style={{maxWidth: 'inherit'}}>
                   <h3 className="noteTitle">{note.text.split('\n')[0]}</h3>

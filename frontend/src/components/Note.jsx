@@ -84,6 +84,10 @@ function Note({note, refresh, currentFolder}) {
     }
   }
 
+  const handleOnDrop =(e) => {
+    e.preventDefault();
+  }
+
   return (
     <div className="note">
       {noteObject ? (
@@ -92,7 +96,7 @@ function Note({note, refresh, currentFolder}) {
             <button className="delete-note" onClick={() => handleDelete(noteObject._id)}><FontAwesomeIcon icon={faTrashCan} className='trash-can'/></button>
             <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
           </div>
-          <textarea id="notepad" className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)} autoFocus></textarea>
+          <textarea id="notepad" className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)} autoFocus onDrop={(e) => handleOnDrop(e)}></textarea>
         </>
       ):(
       <>
