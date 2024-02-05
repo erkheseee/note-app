@@ -9,12 +9,18 @@ const app = express();
 const cors = require('cors');
 
 //middleware
-app.use(cors());
+app.use(cors(
+    {
+        origin: ["https://deploy-mern-1whq.vercel.app"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
 app.use(express.json());
-app.use((req, res, next) => {
-    console.log(req.path, req.method);
-    next();
-})
+// app.use((req, res, next) => {
+//     console.log(req.path, req.method);
+//     next();
+// })
 
 //routes
 app.use('/notes/note', notesRoutes);
