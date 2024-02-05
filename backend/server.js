@@ -9,13 +9,7 @@ const app = express();
 const cors = require('cors');
 
 //middleware
-app.use(cors(
-    {
-        origin: ["https://note-app-server-alpha.vercel.app/"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
+app.use(cors());
 app.use(express.json());
 // app.use((req, res, next) => {
 //     console.log(req.path, req.method);
