@@ -10,7 +10,8 @@ const cors = require('cors');
 
 //middleware
 app.use(cors({
-    origin: ["http://localhost:4000", "https://note-app-ycdm.onrender.com"]
+    origin: ["http://localhost:4000", "https://note-app-ycdm.onrender.com"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
 app.use(express.json());
 // app.use((req, res, next) => {
