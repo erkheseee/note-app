@@ -16,7 +16,7 @@ function App() {
             <div className='pages'>
               <Routes>
                 <Route 
-                  path='/notes'
+                  path='/'
                   element={<Home initial={initial}/>}
                 />
                 {/* <Route 
