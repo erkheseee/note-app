@@ -5,7 +5,7 @@ const notesRoutes = require('./routes/note');
 const folderRoute = require('./routes/folder');
 
 const app = express();
-
+const port = process.env.PORT || 4000;
 const cors = require('cors');
 
 //middleware
@@ -30,7 +30,7 @@ app.use('/notes/folder', folderRoute);
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connected to the db!");
-        app.listen(process.env.PORT, () => {
+        app.listen(port, () => {
             console.log('listening....')
         });
     })
