@@ -9,13 +9,7 @@ const app = express();
 const cors = require('cors');
 
 //middleware
-app.use(cors(
-    {
-        origin: ["note-app-server-alpha.vercel.app","localhost:3000"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
+app.use(cors);
 app.use(express.json());
 // app.use((req, res, next) => {
 //     console.log(req.path, req.method);
@@ -43,5 +37,3 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => {
         console.log(error);
     })
-
-module.exports = app;
