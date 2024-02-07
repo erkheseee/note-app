@@ -33,7 +33,7 @@ const cors = require('cors');
 
 //middleware
 app.use(cors({
-    origin: ["http://localhost:4000", "https://note-app-ycdm.onrender.com", "https://note-app-coral-eight.vercel.app"],
+    origin: ["http://localhost:4000", "https://note-app-ycdm.onrender.com", "https://note-app-coral-eight.vercel.app", "http://localhost:5173"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
 app.use(express.json());
@@ -42,11 +42,11 @@ app.use(express.json());
 //     next();
 // })
 
-app.get("/", (req, res) => {
-    res.json({
-        message: "Hello New World"
-    });
-});
+// app.get("/", (req, res) => {
+//     res.json({
+//         message: "Hello New World"
+//     });
+// });
 
 //routes
 app.use('/notes/note', notesRoutes);
