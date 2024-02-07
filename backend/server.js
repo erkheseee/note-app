@@ -9,7 +9,9 @@ const port = process.env.PORT || 4000;
 const cors = require('cors');
 
 //middleware
-app.use(cors);
+app.use(cors({
+    origin: ["http://localhost:4000", "https://note-app-ycdm.onrender.com"]
+}));
 app.use(express.json());
 // app.use((req, res, next) => {
 //     console.log(req.path, req.method);
