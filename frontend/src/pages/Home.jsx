@@ -19,7 +19,7 @@ const Home = ({initial}) => {
     //fetching folders
     useEffect(() => {
         const fetchFolders = async () => {
-            const response = await fetch('http://localhost:4000/notes/folder');
+            const response = await fetch('https://note-app-ycdm.onrender.com/notes/folder');
             const json = await response.json();
 
             if(response.ok) {
@@ -41,7 +41,7 @@ const Home = ({initial}) => {
     useEffect(() => {
         const fetchNotes = async () => {
             if(currentFolder._id == ALLNOTES) {
-                const response = await fetch('http://localhost:4000/notes/note');
+                const response = await fetch('https://note-app-ycdm.onrender.com/notes/note');
                 const json = await response.json();
 
                 if(response.ok) {
@@ -49,7 +49,7 @@ const Home = ({initial}) => {
                     setNote(json[0]);
                 }
             } else {
-                const response = await fetch(`http://localhost:4000/notes/folder/${currentFolder._id}`);
+                const response = await fetch(`https://note-app-ycdm.onrender.com/notes/folder/${currentFolder._id}`);
                 const json = await response.json();
 
                 if(response.ok) {

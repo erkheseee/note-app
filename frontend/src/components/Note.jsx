@@ -28,7 +28,7 @@ function Note({note, refresh, currentFolder}) {
     if(noteObject) {
       const testObject = {"text": noteObject.text};
 
-      const response = await fetch(`http://localhost:4000/notes/note/${noteObject._id}`, {
+      const response = await fetch(`https://note-app-ycdm.onrender.com/notes/note/${noteObject._id}`, {
         method: 'PATCH',
         body: JSON.stringify(testObject),
         headers: {
@@ -49,7 +49,7 @@ function Note({note, refresh, currentFolder}) {
   }
 
   const handleDelete = async (id) => {
-    const response = await fetch(`http://localhost:4000/notes/note/${id}`, {
+    const response = await fetch(`https://note-app-ycdm.onrender.com/notes/note/${id}`, {
       method: 'DELETE',
     });
     const json = await response.json();
@@ -65,7 +65,7 @@ function Note({note, refresh, currentFolder}) {
   }
 
   const handleCreate = async (obj) => {
-    const response = await fetch(`http://localhost:4000/notes/note/`, {
+    const response = await fetch(`https://note-app-ycdm.onrender.com/notes/note/`, {
       method: 'POST',
       body: JSON.stringify({text: " ", folder: obj._id}),
       headers: {

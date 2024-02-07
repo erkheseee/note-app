@@ -62,7 +62,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   }
 
   const handleFocusOut = async () => {
-    const response = await fetch(`http://localhost:4000/notes/folder/${newFolder._id}`, {
+    const response = await fetch(`https://note-app-ycdm.onrender.com/notes/folder/${newFolder._id}`, {
       method: 'PATCH',
       body: JSON.stringify({text: newFolder.text}),
       headers: {
@@ -83,7 +83,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   }
 
   const createFolder = async () => {
-    const response = await fetch(`http://localhost:4000/notes/folder/`, {
+    const response = await fetch(`https://note-app-ycdm.onrender.com/notes/folder/`, {
       method: 'POST',
       body: JSON.stringify({text: 'New Folder'}),
       headers: {
@@ -116,7 +116,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
   }
 
   const handleDelete = async (id) => {
-    const response = await fetch(`http://localhost:4000/notes/folder/${id}`, {
+    const response = await fetch(`https://note-app-ycdm.onrender.com/notes/folder/${id}`, {
       method: 'DELETE',
     });
     const json = await response.json();
@@ -195,7 +195,7 @@ function FolderBar({folders, currentFolder, refresh, newFolderParent, handleFold
     e.currentTarget.classList.add("folder");
     const noteId = e.dataTransfer.getData("text");
     // note patch HERE
-    const response = await fetch(`http://localhost:4000/notes/note/${noteId}`, {
+    const response = await fetch(`https://note-app-ycdm.onrender.com/notes/note/${noteId}`, {
         method: 'PATCH',
         body: JSON.stringify({folder: folderId}),
         headers: {
