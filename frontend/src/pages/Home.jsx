@@ -26,7 +26,7 @@ const Home = ({initial}) => {
                 setFolders(json);
                 if(currentFolder == null || refresh.method == "DELETE current folder") {
                     json.map((folder) => {
-                        folder._id == ALLNOTES ? setCurrentFolder(folder) : console.log("Error, All Notes folder has been removed");
+                        folder._id == ALLNOTES && setCurrentFolder(folder);
                     })
                 } else {
                     currentFolder ? setFolderSwitch(!folderSwitch): setCurrentFolder(json[0]);
@@ -57,8 +57,7 @@ const Home = ({initial}) => {
                     json.length == 0 ? setNote(null) : setNote(json[0]);
                 }       
             }
-        } 
-        console.log("HEEEEEEEEEERRRRREEEEEEEEE", note   );
+        }
         if(currentFolder) fetchNotes();
 
         loadJsx();
@@ -68,7 +67,6 @@ const Home = ({initial}) => {
     useEffect(() => {
         setNote(currentNote);
         loadJsx();
-        console.log("DEBUG");
     }, [currentNote])
 
     function loadJsx() {
@@ -79,11 +77,9 @@ const Home = ({initial}) => {
             } else jsx.push(<FolderBar folders={folders} currentFolder={currentFolder} handleFolderChange={setCurrentFolder} refresh={setRefresh} newFolderParent={null}/>)
             if(notes) {
                 if(notes.length == 0 ){
-                    console.log('11111111111111111');
                     jsx.push(<NotesBar handleNoteChange={setCurrentNote} notes={[]} refresh={setRefresh} curNote={currentNote} />);
                     jsx.push(<Note note={note} refresh={setRefresh} handleFolderChange={setCurrentFolder} currentFolder={currentFolder} />);
                 } else {
-                    console.log('22222222222222222');
                     jsx.push(<NotesBar handleNoteChange={setCurrentNote} notes={notes} refresh={setRefresh} curNote={currentNote} />);
                     jsx.push(<Note note={note} refresh={setRefresh} handleFolderChange={setCurrentFolder} currentFolder={currentFolder} />)
                 } 

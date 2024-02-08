@@ -7,7 +7,8 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons"
 function Note({note, refresh, currentFolder}) {
   const [noteObject, setNoteObject] = useState(null);
   const [error, setError] = useState(null);
-  const [typed, setTyped] = useState(false);
+  const [typed, setTyped] = useState(null);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setNoteObject(note);
@@ -15,15 +16,21 @@ function Note({note, refresh, currentFolder}) {
 
   const handleTyping = async (e) => {
     setNoteObject((noteObject) => ({...noteObject, text: e.target.value}));
-    setTyped(!typed);
+    setTyped(noteObject.text);
   }
 
   useEffect(() => {
-    handleChange();
+    
+    setSaving(true);
+    const timeoutId = setTimeout(() => {
+      handleChange();
+    }, 3000);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [typed])
 
   const handleChange = async () => {
-    console.log('this is handle chagne')
     //handleChange is running without me editing the notepad for some reason
     if(noteObject) {
       const testObject = {"text": noteObject.text};
@@ -43,6 +50,7 @@ function Note({note, refresh, currentFolder}) {
       if(response.ok) {
         setError(null);
         console.log('Note has been updated');
+        setSaving(false);
         refresh({method: 'PATCH NOTE', id: Math.random()});
       }
     }
@@ -94,6 +102,7 @@ function Note({note, refresh, currentFolder}) {
         <>
           <div className="note-header">
             <button className="delete-note" onClick={() => handleDelete(noteObject._id)}><FontAwesomeIcon icon={faTrashCan} className='trash-can'/></button>
+            <div>{saving && 'saving...'}</div>
             <button className="create-note" onClick={() => handleCreate(currentFolder)}><FontAwesomeIcon icon={faPenToSquare} className='pen-to-square'/></button>
           </div>
           <textarea id="notepad" className="notepad" type="text" value={noteObject.text} onChange={(e) => handleTyping(e)} autoFocus onDrop={(e) => handleOnDrop(e)}></textarea>
