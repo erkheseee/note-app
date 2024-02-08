@@ -11,7 +11,7 @@ const cors = require('cors');
 
 //middleware
 app.use(cors({
-    origin: ["https://note-app-coral-eight.vercel.app", "http://localhost:5173"],
+    origin: ["https://erkheseees-notes-app.vercel.app/", "http://localhost:5173"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
 app.use(express.json());
