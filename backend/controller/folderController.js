@@ -22,7 +22,7 @@ const getFolder = async (req, res) => {
         return res.status(404).json({error: "No such folder!"});
     }
 
-    const notes = (await Note.find({}).where({folder: id})).sort({updatedAt: -1});
+    const notes = await Note.find({}).where({folder: id}).sort({updatedAt: -1});
 
     res.status(200).json(notes);
 }
